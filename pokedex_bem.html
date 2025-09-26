@@ -16,28 +16,32 @@
       --card:#0b1220;/* custom */
     }
     *{box-sizing:border-box}
-    html,body{height:100%}
+    html,body{height:100%;overflow:hidden}
     body{
       margin:0;background:radial-gradient(1200px 800px at 20% 0%,#111a2b 0%,var(--bg) 70%);
       color:var(--text);font:16px/1.4 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Inter,Arial,sans-serif;
     }
 
+    body{overflow-x:hidden}
+
     /* Layout base */
-    .app{--max:1200px;min-height:100%;display:grid;grid-template-rows:auto 1fr auto}
+    .app{--max:1400px;height:100vh;display:grid;grid-template-rows:auto 1fr auto}
     .app__header{position:sticky;top:0;z-index:10;background:linear-gradient(180deg,rgba(15,21,32,.95),rgba(15,21,32,.7));backdrop-filter:blur(6px);border-bottom:1px solid #1f2937}
     .app__header-inner{max-width:var(--max);margin:auto;display:flex;gap:.75rem;align-items:center;padding:.75rem 1rem}
     .brand{display:flex;align-items:center;gap:.6rem}
     .brand__ball{width:28px;height:28px;border-radius:50%;background:conic-gradient(var(--primary) 0 180deg,#fff 0 360deg);box-shadow:0 0 0 3px #0b0f19 inset,0 1px 0 rgba(255,255,255,.08) inset,0 6px 20px rgba(0,0,0,.45)}
     .brand__title{font-weight:800;letter-spacing:.3px}
 
-    .app__main{max-width:var(--max);margin:auto;display:grid;grid-template-columns:380px 1fr;gap:1rem;padding:1rem}
+    .app__main{max-width:var(--max);margin:auto;display:grid;grid-template-columns:700px 1fr;gap:1rem;padding:1rem;min-height:0}
     .panel{background:linear-gradient(180deg,#0e1626,#0a1120);border:1px solid #1f2937;border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
 
     /* Search / filters */
     .filters{padding:1rem}
     .filters__row{display:grid;grid-template-columns:1fr auto auto;gap:.6rem}
+    .filters__row .input{grid-column:1 / -1}
     .input{position:relative}
-    .input__control{width:100%;padding:.75rem 2.4rem .75rem .9rem;border-radius:12px;border:1px solid #243244;background:#0a1220;color:var(--text)}
+    .input__control{width:100%;padding:.95rem 2.6rem .95rem 1rem;border-radius:12px;border:1px solid #243244;background:#0a1220;color:var(--text);font-size:1.1rem}
+    .input__control::placeholder{color:#a9b4c9;opacity:.9}
     .input__icon{position:absolute;right:.6rem;top:50%;translate:0 -50%;opacity:.6}
     .toggle{display:flex;align-items:center;gap:.5rem;padding:.55rem .7rem;border-radius:12px;background:#0a1220;border:1px solid #243244}
     .toggle__check{accent-color:var(--primary)}
@@ -46,21 +50,26 @@
     /* List */
     .list{display:grid;grid-template-rows:auto 1fr;max-height:calc(100vh - 190px)}
     .list__head{display:flex;align-items:center;justify-content:space-between;padding:0 1rem .75rem;border-bottom:1px solid #1f2937}
-    .list__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem;padding:1rem;overflow:auto}
-    .card{background:var(--card);border:1px solid #1f2937;border-radius:16px;padding:.8rem;display:grid;grid-template-columns:auto 1fr auto;gap:.65rem;align-items:center;transition:transform .08s ease,box-shadow .08s ease}
+    .list__head > div{display:flex;gap:.5rem;align-items:center;white-space:nowrap}
+    .list__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;padding:1rem;overflow:auto;overflow-x:hidden}
+    .card{position:relative;background:var(--card);border:1px solid #1f2937;border-radius:16px;padding:.8rem;display:grid;grid-template-columns:72px 1fr;gap:.65rem;align-items:start;transition:transform .08s ease,box-shadow .08s ease}
     .card:hover{transform:translateY(-1px);box-shadow:0 8px 25px rgba(0,0,0,.28)}
-    .card__img{width:60px;height:60px;image-rendering:pixelated}
-    .card__title{font-weight:700}
+    .card__img{width:72px;height:72px;image-rendering:pixelated;align-self:start}
+    .card__title{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
     .pill{display:inline-flex;align-items:center;gap:.4rem;font-size:.75rem;border:1px solid #31415f;background:#0c1a32;padding:.15rem .45rem;border-radius:999px}
-    .heart{border:none;background:transparent;cursor:pointer;opacity:.85}
-    .heart[aria-pressed="true"]{filter:drop-shadow(0 0 6px rgba(239,68,68,.5))}
+    .list__head .pill{background:#f3f4f6;border-color:#cbd5e1;color:#111827;font-weight:700;padding:.45rem .7rem}
+    .list__head .pill:hover{background:#e5e7eb}
+    .list__head .pill[disabled]{opacity:.6}
+    .heart{position:absolute;top:.5rem;right:.5rem;display:flex;align-items:center;justify-content:center;width:36px;height:36px;border:1px solid #334155;background:#111827;cursor:pointer;color:#e5e7eb;font-size:1.1rem;border-radius:10px;transition:background .15s, box-shadow .15s, border-color .15s}
+    .heart:hover{background:#131e33;border-color:#4b5d7d;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+    .heart[aria-pressed="true"]{color:#fff;background:rgba(239,68,68,.2);border-color:rgba(239,68,68,.6);box-shadow:0 0 0 2px rgba(239,68,68,.35) inset,0 0 12px rgba(239,68,68,.25)}
 
     /* Detail */
-    .detail{padding:1rem;display:grid;grid-template-rows:auto 1fr;gap:1rem}
+    .detail{padding:1rem;display:grid;grid-template-rows:auto 1fr;gap:1rem;overflow:auto;min-height:0}
     .detail__empty{opacity:.7;text-align:center;padding:3rem 1rem}
     .detail__header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #1f2937;padding-bottom:.75rem}
     .detail__title{display:flex;align-items:center;gap:.8rem}
-    .detail__img{width:120px;height:120px;image-rendering:pixelated}
+    .detail__img{width:120px;height:120px;image-rendering:pixelated;display:none}
     .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:.6rem}
     .stat{background:#0b1222;border:1px solid #1f2937;border-radius:12px;padding:.6rem}
     .stat__bar{height:10px;border-radius:999px;background:#0a1220;border:1px solid #1f2937;overflow:hidden}
@@ -77,6 +86,7 @@
       .toggle{grid-column:1/2}
       .select{grid-column:2/3}
     }
+    .signature-badge{position:fixed;bottom:12px;right:12px;background:rgba(17,24,39,.75);border:1px solid #1f2937;color:#e5e7eb;padding:.5rem .75rem;border-radius:10px;font-size:.85rem;backdrop-filter:blur(4px);z-index:50}
   </style>
 </head>
 <body>
@@ -116,8 +126,8 @@
           <div class="list__head">
             <strong id="listCount">0 resultados</strong>
             <div>
-              <button id="prev" class="pill" disabled>◀ Prev</button>
-              <button id="next" class="pill">Next ▶</button>
+              <button id="prev" class="pill" disabled>◀ Anterior</button>
+              <button id="next" class="pill">Siguiente ▶</button>
             </div>
           </div>
           <div id="grid" class="list__grid" aria-live="polite"></div>
@@ -143,31 +153,44 @@
       </section>
     </main>
 
-    <footer class="app__footer">
-      Proyecto realizado por <strong>Kerwin Mendez</strong> · Carnet <strong>202200969</strong> ·
-      Curso: <strong>Programación Web – Universidad Da Vinci de Guatemala</strong>
-    </footer>
+    <footer class="app__footer"></footer>
+
+    <div class="signature-badge">Proyecto realizado por <strong>Kerwin Mendez</strong> · Carnet <strong>202200969</strong> · Curso: <strong>Programación Web – Universidad Da Vinci de Guatemala</strong></div>
   </div>
 
   <script>
-  const API = 'https://pokeapi.co/api/v2';
-  const LIMIT = 24;
+  /**
+   * Pokédex – JS puro con BEM, fetch a PokeAPI, render dinámico, favoritos en localStorage y responsive.
+   * Cumple con:
+   *  - Parte I: BEM en clases y maquetación semántica
+   *  - Parte II: fetch() a https://pokeapi.co
+   *  - Parte III: Render de lista + detalle
+   *  - Parte IV: Favoritos (localStorage)
+   *  - Parte V: Responsive y guía para video (ver comentario al final)
+   */
 
+  const API = 'https://pokeapi.co/api/v2';
+  const LIMIT = 24; // tamaño de página por defecto
+
+  // Estado de la app
   const state = {
     pageOffset: 0,
     search: '',
     onlyFavs: false,
     sort: 'id-asc',
-    results: [],
-    selected: null,
+    results: [], // { id, name, sprite, types:[] }
+    selected: null, // objeto detalle
     favs: new Set(JSON.parse(localStorage.getItem('pokedex:favs') || '[]')),
   };
 
+  // Helpers
   const $ = sel => document.querySelector(sel);
   const $$ = sel => Array.from(document.querySelectorAll(sel));
+  const toId = (url) => Number(url.split('/').filter(Boolean).pop());
   const formatId = (n) => `#${String(n).padStart(4,'0')}`;
   const saveFavs = () => localStorage.setItem('pokedex:favs', JSON.stringify([...state.favs]));
 
+  // UI refs
   const grid = $('#grid');
   const listCount = $('#listCount');
   const prevBtn = $('#prev');
@@ -181,6 +204,7 @@
   const detailImg = $('#detailImg');
   const detailBody = $('#detailBody');
 
+  // Carga inicial
   init();
 
   function init(){
@@ -189,13 +213,14 @@
     loadPage();
   }
 
+  // Manejo de URL (búsqueda simple por #id o nombre en hash)
   function hydrateFromURL(){
     const hash = decodeURIComponent(location.hash.replace('#','')).trim();
     if(hash){ searchInput.value = hash; state.search = hash.toLowerCase(); }
   }
 
   function bindEvents(){
-    let t;
+    let t; // debounce para búsqueda
     searchInput.addEventListener('input', (e)=>{
       clearTimeout(t);
       t = setTimeout(()=>{
@@ -214,6 +239,7 @@
 
     sortSelect.addEventListener('change', (e)=>{
       state.sort = e.target.value;
+      state.results = sortResults(state.results);
       renderList();
     });
 
@@ -233,9 +259,11 @@
       if(state.favs.has(id)) state.favs.delete(id); else state.favs.add(id);
       saveFavs();
       favBtn.setAttribute('aria-pressed', state.favs.has(id));
+      // actualizar si vista es solo favoritos
       if(state.onlyFavs) renderList();
     });
 
+    // Accesibilidad: teclas rápidas
     document.addEventListener('keydown', (e)=>{
       if(e.key === '/' && document.activeElement !== searchInput){
         e.preventDefault(); searchInput.focus();
@@ -251,15 +279,19 @@
       let results = [];
 
       if(state.search){
+        // Si es número o formato #123 -> buscar detalle directo
         const clean = state.search.replace('#','');
         if(/^\d+$/.test(clean)){
           const id = Number(clean);
           const d = await fetchJSON(`${API}/pokemon/${id}`);
           results = [mapBasic(d)];
         }else{
+          // búsqueda por nombre: PokeAPI no tiene search parcial directo, traemos un bulk y filtramos
           const all = await fetchJSON(`${API}/pokemon?limit=100000&offset=0`);
           const filtered = all.results.filter(x => x.name.includes(state.search));
+          // paginar a mano
           const page = filtered.slice(state.pageOffset, state.pageOffset + LIMIT);
+          // obtener detalles mínimos para sprites/tipos
           results = await Promise.all(page.map(async r => mapBasic(await fetchJSON(r.url))));
           nextBtn.disabled = state.pageOffset + LIMIT >= filtered.length;
           prevBtn.disabled = state.pageOffset === 0;
@@ -269,6 +301,7 @@
           return;
         }
       } else if(state.onlyFavs){
+        // Solo favoritos: traer detalles de ids favoritos con paginado
         const favIds = [...state.favs].sort((a,b)=>a-b);
         const page = favIds.slice(state.pageOffset, state.pageOffset + LIMIT);
         results = await Promise.all(page.map(id => fetchJSON(`${API}/pokemon/${id}`).then(mapBasic)));
@@ -276,9 +309,11 @@
         prevBtn.disabled = state.pageOffset === 0;
         listCount.textContent = `${favIds.length} en favoritos`;
       } else {
+        // Lista normal paginada
         const data = await fetchJSON(`${API}/pokemon?limit=${LIMIT}&offset=${state.pageOffset}`);
         nextBtn.disabled = !data.next;
         prevBtn.disabled = !data.previous;
+        // Obtener detalles para cada ítem de la página (sprites/tipos)
         results = await Promise.all(data.results.map(async r => mapBasic(await fetchJSON(r.url))));
         listCount.textContent = `Mostrando ${state.pageOffset+1}–${state.pageOffset+results.length}`;
       }
@@ -321,8 +356,9 @@
 
   function renderList(){
     grid.innerHTML = state.results.map(renderCard).join('');
+    // re-bind de corazones y tarjetas
     $$(".card").forEach(card=>{
-      card.addEventListener('click', ()=>{
+      card.addEventListener('click', (e)=>{
         const id = Number(card.dataset.id);
         showDetailById(id);
       });
@@ -372,6 +408,7 @@
       detailName.textContent = 'Selecciona un Pokémon';
       detailMeta.textContent = '—';
       detailImg.removeAttribute('src');
+      detailImg.style.display='none';
       detailBody.innerHTML = `<p class="detail__empty">Selecciona un Pokémon para ver su información.</p>`;
       return;
     }
@@ -383,6 +420,7 @@
     detailName.textContent = `${formatId(sel.id)} · ${capitalize(sel.name)}`;
     detailMeta.textContent = `${sel.types.join(' · ')} · Altura: ${sel.height/10} m · Peso: ${sel.weight/10} kg`;
     detailImg.src = sel.sprite;
+    detailImg.style.display='block';
 
     detailBody.innerHTML = `
       <div class="stats">
@@ -400,6 +438,7 @@
     `;
   }
 
+  // Mapas
   function mapBasic(d){
     return {
       id: d.id,
@@ -420,6 +459,7 @@
     };
   }
 
+  // fetch JSON con manejo básico de errores
   async function fetchJSON(url){
     const res = await fetch(url);
     if(!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -428,10 +468,22 @@
 
   function capitalize(s){return s.charAt(0).toUpperCase()+s.slice(1)}
 
+  // Para demo: si URL trae #25 cargamos Pikachu, etc.
   window.addEventListener('load', ()=>{
     const hash = decodeURIComponent(location.hash.replace('#','')).trim();
     if(/^\d+$/.test(hash.replace('#',''))) showDetailById(Number(hash.replace('#','')));
   });
+
+  /**
+   * Guía rápida para tu video (Parte V – 20 pts):
+   * 1) Presentación (10–15s): Explica que es una Pokédex hecha con JS/HTML/CSS y BEM.
+   * 2) BEM (20–30s): Muestra las clases .app__header, .list__grid, .card, .detail__title, etc.
+   * 3) Consumo PokeAPI (30–40s): Enseña fetch() y endpoints /pokemon, /pokemon-species.
+   * 4) Render dinámico (20–30s): Busca “pika…”, abre un detalle, observa estadísticas.
+   * 5) Favoritos (15–20s): Marca ❤, activa “Solo favoritos”, recarga y vérifica persistencia.
+   * 6) Responsive (15–20s): Redimensiona a móvil (<960px y <480px) mostrando el layout adaptativo.
+   * 7) Cierre (10s): Resume y comparte el repo o link.
+   */
   </script>
 </body>
 </html>
